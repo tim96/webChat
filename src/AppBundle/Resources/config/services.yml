@@ -1,6 +1,7 @@
 parameters:
     app.chat.handler.class: AppBundle\Handler\ChatHandler
 
-app.chat.handler:
-    class: %app.chat.handler.class%
-    arguments: [@service_container, @doctrine.orm.entity_manager]
+services:
+    app.chat.handler:
+        class: %app.chat.handler.class%
+        arguments: [@service_container, @doctrine.orm.entity_manager]
