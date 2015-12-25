@@ -6,7 +6,7 @@
  * Time: 9:14 PM
  */
 
-namespace TimConfigBundle\Handler\Base;
+namespace AppBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
