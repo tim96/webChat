@@ -1,0 +1,73 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    {{ block('chat') }}
+{% endblock body %}
+
+{% block chat %}
+
+    <div id="chat_wrapper">
+        <div id="template_idle" class="template">
+            <div class="row text-center">
+                <div>
+                    <h3>Добро пожаловать в наш чат!</h3>
+                    <p>Чтобы найти собеседника, нажмите кнопку "Начать чат" и подождите, пока система автоматически подберет собеседника</p>
+                    <p>Чтобы найти нового собеседника, нажмите кнопку "Закончить разговор" и снова нажмите "Начать чат".</p>
+                    <p>История чата не сохраняется. Развлекайтесь!</p>
+                </div>
+                <a class="btn btn-large btn-primary begin-chat">Начать чат</a>
+            </div>
+        </div>
+        <div id="template_wait" class="template">
+            <div class="row text-center">
+                <h3><i class="fa fa-spin fa-refresh"></i> Подождите</h3>
+                <span class="state"></span>
+            </div>
+        </div>
+        <div id="template_chat" class="template">
+            <div class="row">
+                <div class="message_box" id="message_box"></div>
+            </div>
+            <div class="row well">
+                <form id="send-msg-form">
+                    <div class="input-append">
+                        <textarea id="message" rows="2" placeholder="Введите сообщение (Отправка по Ctrl + Enter)" required="required" class="span6"></textarea>
+                        <button id="send-btn" type="submit" class="btn btn-primary btn-large has-spinner"><span class="spinner"><i class="fa fa-spin fa-refresh"></i></span>Отправить</button>
+                    </div>
+                    <div class="text-center">
+                        <div class="show-chat"><a href="#" class="btn btn-danger close-chat">Закончить разговор</a></div>
+                        <div class="show-closed">Разговор закончен. <a href="#" class="btn btn-primary begin-chat">Начать заново</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock chat %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets '@AppBundle/Resources/public/css/index.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}?v=1.0" >
+    {% endstylesheets %}
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts '@AppBundle/Resources/public/js/state-machine.min.js'
+        '@AppBundle/Resources/public/js/widget.js' output='js/app.min.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        function init() {
+            $('#chat_wrapper').chatWidget();
+        }
+
+        $(document).ready(function () {
+            init();
+        });
+    </script>
+{% endblock javascripts %}
