@@ -2,9 +2,14 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Manager\MessageManager;
+use Ratchet\Http\HttpServer;
+use Ratchet\Server\IoServer;
+use Ratchet\WebSocket\WsServer;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface as InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -28,7 +33,8 @@ class DaemonCommand extends ContainerAwareCommand
         $this
             ->setName('daemon:start')
             ->setDescription('Start web chat application')
-            ->addArgument('isDebug', InputArgument::OPTIONAL, 'Turn on debug mode: true, false.', false)
+            ->addArgument('isDebug', InputArgument::OPTIONAL, 'Turn on debug mode: true, false. Default - false', false)
+            ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'The port for incoming connection. Default - 8080', 8080)
         ;
     }
 
@@ -43,6 +49,22 @@ class DaemonCommand extends ContainerAwareCommand
         }
 
         $isDebug = $input->getArgument('isDebug');
+        $port = $input->getOption('port');
+
+        $chat = $this->container->get('app.chat.handler');
+        $server = IoServer::factory(
+            new HttpServer(
+                new WsServer(
+                    new MessageManager($chat)
+                )
+            ),
+            $port
+        );
+        if ($isDebug) {
+            $this->output->writeln("Start server.");
+        }
+
+        $server->run();
 
         if ($isDebug) {
             $this->output->writeln("Finish execute daemon.");
@@ -53,4 +75,6 @@ class DaemonCommand extends ContainerAwareCommand
     {
         $this->output->writeln("Stop signal from system.");
     }
+
+
 }

@@ -19,9 +19,12 @@ class MessageManager implements MessageComponentInterface
      */
     protected $connections;
 
-    public function __construct()
+    protected $chatHandler;
+
+    public function __construct($chatHandler)
     {
         $this->connections = array();
+        $this->chatHandler = $chatHandler;
     }
 
     /**
