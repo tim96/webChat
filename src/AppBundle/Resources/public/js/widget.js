@@ -1,7 +1,7 @@
 (function($) {
     $.fn.extend({chatWidget: function(options) {
         var o = jQuery.extend({
-            wsUri: 'ws://'+location.host+':8080',
+            wsUri: 'ws://'+location.host+':'+options.port,
             tmplClass: '.template',
             tmplIdle: '#template_idle',
             tmplWait: '#template_wait',
@@ -13,6 +13,8 @@
             textMessage: '#message',
             btnCloseChat: '.close-chat'
         },options);
+
+        console.log('options', options);
 
         var websocket, fsm;
 
@@ -32,7 +34,7 @@
             var original = document.title;
             window.setInterval(function() {
                 if (new_message && window_active == false) {
-                    document.title = '***СООБЩЕНИЕ***';
+                    document.title = options.labels.newMessage;
                     setTimeout(function(){
                         document.title = original;
                     }, 750);
@@ -203,8 +205,8 @@
             ],
             callbacks: {
                 onidle: function(event, from, to) { idleController.show(); },
-                onconnecting: function(event, from, to) { waitController.show('Подключение к серверу'); },
-                onwaiting: function(event, from, to) { waitController.show('Ожидание собеседника'); },
+                onconnecting: function(event, from, to) { waitController.show(options.labels.serverConnection); },
+                onwaiting: function(event, from, to) { waitController.show(options.labels.waitContestant); },
                 onchat: function(event, from, to) { chatController.showChat(); },
                 onclosed: function(event, from, to) { chatController.showClosed(); },
                 onopen:  function(event, from, to) { initSocket(); },
@@ -216,10 +218,10 @@
                 },
                 onresponse: function (event, from, to) {
                     chatController.clear();
-                    chatController.addSystemMessage('Собеседник найден - общайтесь');
+                    chatController.addSystemMessage(options.labels.findContestant);
                 },
                 onclose: function (event, from, to) {
-                    chatController.addSystemMessage('Чат закрыт');
+                    chatController.addSystemMessage(options.labels.chatClosed);
                 }
             }
         });

@@ -36,7 +36,7 @@
                     </div>
                     <div class="text-center">
                         <div class="show-chat"><a href="#" class="btn btn-danger close-chat">{{ 'chat.finish-chat'|trans({}, 'AppBundle') }}</a></div>
-                        <div class="show-closed">Разговор закончен. <a href="#" class="btn btn-primary begin-chat">{{ 'chat.start-chat-again'|trans({}, 'AppBundle') }}</a></div>
+                        <div class="show-closed">{{ 'chat.end-chat'|trans({}, 'AppBundle') }} <a href="#" class="btn btn-primary begin-chat">{{ 'chat.start-chat-again'|trans({}, 'AppBundle') }}</a></div>
                     </div>
                 </form>
             </div>
@@ -63,7 +63,17 @@
 
     <script type="text/javascript">
         function init() {
-            $('#chat_wrapper').chatWidget();
+            var options = {};
+            var labels = {};
+            labels.newMessage = '{{ 'chat.new-message'|trans({}, 'AppBundle') }}';
+            labels.serverConnection = '{{ 'chat.server-connection'|trans({}, 'AppBundle') }}';
+            labels.waitContestant = '{{ 'chat.wait-contestant'|trans({}, 'AppBundle') }}';
+            labels.chatClosed = '{{ 'chat.chat-closed'|trans({}, 'AppBundle') }}';
+            labels.findContestant = '{{ 'chat.find-contestant'|trans({}, 'AppBundle') }}';
+            options.labels = labels;
+            options.port = 8080;
+
+            $('#chat_wrapper').chatWidget(options);
         }
 
         $(document).ready(function () {
