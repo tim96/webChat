@@ -39,3 +39,4 @@ composer.lock
 .idea/
 web/css/
 web/js/
+*.php~
