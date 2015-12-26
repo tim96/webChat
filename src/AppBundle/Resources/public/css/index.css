@@ -1,0 +1,27 @@
+#template_idle {
+    padding-top: 20px;
+}
+
+#template_wait {
+    padding-top: 50px;
+}
+
+#chat_wrapper .message_box {
+    background: #FFFFFF;
+    height: 150px;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid #999999;
+}
+
+.system_msg{color: #BDBDBD;font-style: italic;}
+.user_name{font-weight:bold;}
+.user_message{color: #88B6E0;}
+
+.template {
+    display: none;
+}
+
+.template.active {
+    display: inherit;
+}
