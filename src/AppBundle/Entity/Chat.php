@@ -83,6 +83,7 @@ class Chat
      */
     public function addUser(\AppBundle\Entity\ChatUser $user)
     {
+        $user->setChat($this);
         $this->users[] = $user;
 
         return $this;
