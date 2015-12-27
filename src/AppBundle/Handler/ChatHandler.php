@@ -10,11 +10,12 @@ namespace AppBundle\Handler;
 
 use AppBundle\Entity\Chat;
 use AppBundle\Entity\ChatUser;
+use AppBundle\Interfaces\ChatInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ChatHandler
+class ChatHandler implements ChatInterface
 {
     /** @var  ContainerInterface */
     protected $container;
@@ -43,7 +44,11 @@ class ChatHandler
         return $this->container;
     }
 
-    public function removeUserFromChat(ChatUser $user, Chat $chat)
+    /**
+     * @param ChatUser $user
+     * @param Chat $chat
+     */
+    public function removeUserFromChat($user, $chat)
     {
         if ($chat->getIsCompleted()) {
             $chat->removeUser($user);
