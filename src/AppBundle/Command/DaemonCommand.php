@@ -61,10 +61,15 @@ class DaemonCommand extends ContainerAwareCommand
         $port = $input->getOption('port');
 
         $chat = $this->container->get('app.chat.handler');
+        $chat->setIsDebug($this->isDebug);
+
+        $messageManager = new MessageManager($chat);
+        $messageManager->setIsDebug($this->isDebug);
+
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
-                    new MessageManager($chat)
+                    $messageManager
                 )
             ),
             $port
