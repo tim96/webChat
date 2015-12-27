@@ -51,18 +51,21 @@
         var initSocket = function() {
             websocket = new WebSocket(o.wsUri);
             websocket.onopen = function(e) {
+                console.log('onopen', e);
                 fsm.request();
             };
             websocket.onclose 	= function(e){
+                console.log('onclose', e);
                 fsm.close();
             };
             websocket.onerror	= function(e){
-                console.log(e);
+                console.log('onerror', e);
                 if (websocket.readyState == 1) {
                     websocket.close();
                 }
             };
             websocket.onmessage = function(e) {
+                console.log('onmessage');
                 var msg = JSON.parse(e.data);
                 switch (msg.type) {
                     case 'response':
