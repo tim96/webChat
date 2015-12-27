@@ -25,6 +25,8 @@ class ChatHandler implements ChatInterface
     private $repositoryChat;
     /** @var \AppBundle\Repository\ChatUserRepository  */
     private $repositoryChatUser;
+    /** @var  boolean */
+    protected $isDebug;
 
     public function __construct(ContainerInterface $container, ObjectManager $om)
     {
@@ -32,6 +34,7 @@ class ChatHandler implements ChatInterface
         $this->om = $om;
         $this->repositoryChat = $this->om->getRepository('AppBundle:Chat');
         $this->repositoryChatUser = $this->om->getRepository('AppBundle:ChatUser');
+        $this->isDebug = false;
     }
 
     protected function getManager()
@@ -68,11 +71,14 @@ class ChatHandler implements ChatInterface
 
         $chat = $this->getUncompletedChat();
         if ($chat) {
+            $this->addLog('Find chat: '.$chat->getId());
             $chat->setIsCompleted(true);
         } else {
+            $this->addLog('Create new chat.');
             $chat = new Chat();
         }
         $chat_user->setChat($chat);
+        $chat->addUser($chat_user);
 
         $this->om->persist($chat);
         $this->om->persist($chat_user);
@@ -95,5 +101,18 @@ class ChatHandler implements ChatInterface
     public function getUncompletedChat()
     {
         return $this->repositoryChat->findOneBy(array('isCompleted' => false));
+    }
+
+    private function addLog($text)
+    {
+        // todo: replace to monolog
+        if ($this->isDebug) {
+            echo 'Log: ' . $text . "\r\n<br/>";
+        }
+    }
+
+    public function setIsDebug($value)
+    {
+        $this->isDebug = $value;
     }
 }
