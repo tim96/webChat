@@ -21,6 +21,8 @@ class DaemonCommand extends ContainerAwareCommand
     private $output;
     /** @var  \Symfony\Component\Console\Input\InputInterface */
     private $input;
+    /** @var  boolean */
+    protected $isDebug;
 
     public function setContainer(ContainerInterface $container = null)
     {
@@ -29,7 +31,7 @@ class DaemonCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        // call: php app/console daemon:start
+        // call: php app/console daemon:start isDebug
         $this
             ->setName('daemon:start')
             ->setDescription('Start web chat application')
@@ -43,12 +45,19 @@ class DaemonCommand extends ContainerAwareCommand
         $this->input = $input;
         $this->output = $output;
 
+        declare(ticks = 1);
+
+        register_shutdown_function(array($this, 'stopCommand'));
+        set_error_handler(array($this, 'errorHandler'));
+
         if (function_exists("pcntl_signal")) {
             pcntl_signal(SIGTERM, [$this, 'stopCommand']);
             pcntl_signal(SIGINT, [$this, 'stopCommand']);
+        } else {
+
         }
 
-        $isDebug = $input->getArgument('isDebug');
+        $this->isDebug = $input->getArgument('isDebug');
         $port = $input->getOption('port');
 
         $chat = $this->container->get('app.chat.handler');
@@ -60,21 +69,26 @@ class DaemonCommand extends ContainerAwareCommand
             ),
             $port
         );
-        if ($isDebug) {
-            $this->output->writeln("Start server.");
-        }
 
+        $this->logMessage("Start server.");
         $server->run();
-
-        if ($isDebug) {
-            $this->output->writeln("Finish execute daemon.");
-        }
+        $this->logMessage("Finish execute daemon.");
     }
 
     public function stopCommand()
     {
-        $this->output->writeln("Stop signal from system.");
+        $this->logMessage("Stop signal from system.");
     }
 
+    public function errorHandler()
+    {
+        $this->logMessage("Error handler.");
+    }
 
+    protected function logMessage($message)
+    {
+        if ($this->isDebug) {
+            $this->output->writeln($message);
+        }
+    }
 }
