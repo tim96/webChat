@@ -13,4 +13,6 @@ interface ChatInterface
     public function getUserByRid($rid);
 
     public function getUncompletedChat();
+
+    public function clearChats();
 }

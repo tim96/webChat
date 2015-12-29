@@ -103,6 +103,36 @@ class ChatHandler implements ChatInterface
         return $this->repositoryChat->findOneBy(array('isCompleted' => false));
     }
 
+    public function clearChats()
+    {
+        /** @var \Doctrine\DBAL\Connection $conn */
+        $conn = $this->om->getConnection();
+        $platform = $conn->getDatabasePlatform();
+        $conn->query('SET FOREIGN_KEY_CHECKS=0');
+        $tableChatUser = $this->om->getClassMetadata('AppBundle\Entity\ChatUser');
+        $conn->executeUpdate($platform->getTruncateTableSQL($tableChatUser->getTableName()));
+        $tableChat = $this->om->getClassMetadata('AppBundle\Entity\Chat');
+        $conn->executeUpdate($platform->getTruncateTableSQL($tableChat->getTableName()));
+        $conn->query('SET FOREIGN_KEY_CHECKS=1');
+
+        // delete table with rollback/commit functionalty
+        //
+        // $cmd = $em->getClassMetadata($className);
+        // $connection = $em->getConnection();
+        // $connection->beginTransaction();
+        //
+        // try {
+        //    $connection->query('SET FOREIGN_KEY_CHECKS=0');
+        //    $connection->query('DELETE FROM '.$cmd->getTableName());
+        //    // Beware of ALTER TABLE here--it's another DDL statement and will cause
+        //    // an implicit commit.
+        //    $connection->query('SET FOREIGN_KEY_CHECKS=1');
+        //    $connection->commit();
+        // } catch (\Exception $e) {
+        //    $connection->rollback();
+        // }
+    }
+
     private function addLog($text)
     {
         // todo: replace to monolog

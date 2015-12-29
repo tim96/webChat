@@ -27,6 +27,7 @@ class MessageManager implements MessageComponentInterface
         $this->connections = array();
         $this->chatHandler = $chatHandler;
         $this->isDebug = false;
+        $this->chatHandler->clearChats();
     }
 
     /**
