@@ -1,0 +1,12 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h2>{{ 'about.header.title'|trans({}, 'AppBundle') }}</h2>
+            <p>
+                {{ 'about.header.text'|trans({}, 'AppBundle') }}
+            </p>
+        </div>
+    </div>
+{% endblock body %}
