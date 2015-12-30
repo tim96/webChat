@@ -27,4 +27,13 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle:Default:chat.html.twig');
     }
+
+    /**
+     * @Route("/about", name="about")
+     */
+    public function aboutAction(Request $request)
+    {
+        // replace this example code with whatever you need
+        return $this->render('AppBundle:Default:about.html.twig');
+    }
 }
