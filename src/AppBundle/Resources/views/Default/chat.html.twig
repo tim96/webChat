@@ -45,14 +45,6 @@
 
 {% endblock chat %}
 
-{% block stylesheets %}
-    {{ parent() }}
-
-    {% stylesheets '@AppBundle/Resources/public/css/index.css' filter='cssrewrite' %}
-        <link rel="stylesheet" href="{{ asset_url }}?v=1.0" >
-    {% endstylesheets %}
-{% endblock stylesheets %}
-
 {% block javascripts %}
     {{ parent() }}
 

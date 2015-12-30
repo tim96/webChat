@@ -24,6 +24,9 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         {# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">#}
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        {% stylesheets '@AppBundle/Resources/public/css/index.css' filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}?v=1.0" >
+        {% endstylesheets %}
     {% endblock stylesheets %}
 
     <title>{% block title %}{{ 'main_page.title'|trans({}, 'TimVhostingBundle') }}{% endblock %}</title>
@@ -56,6 +59,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 {% set currentRoute = app.request.attributes.get('_route') %}
                                 <li class="{% if currentRoute == ('chat') %}active{% endif %}"><a href="{{ path('chat') }}">{{ 'header.chat'|trans({}, 'AppBundle') }}</a></li>
+                                <li class="{% if currentRoute == ('about') %}active{% endif %}"><a href="{{ path('about') }}">{{ 'header.about'|trans({}, 'AppBundle') }}</a></li>
                                 <li class="{% if currentRoute == ('symfony_version') %}active{% endif %}"><a href="{{ path('symfony_version') }}">{{ 'header.symfony_version'|trans({}, 'AppBundle') }}</a></li>
                             </ul>
                         {% endblock header_navbar %}
