@@ -7,7 +7,7 @@
 #php composer.phar update
 #php composer.phar dump-autoload --optimize
 
-composer self-update
+#composer self-update
 composer update
 composer dump-autoload --optimize
 
