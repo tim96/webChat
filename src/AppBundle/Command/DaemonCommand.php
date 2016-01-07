@@ -36,7 +36,7 @@ class DaemonCommand extends ContainerAwareCommand
             ->setName('daemon:start')
             ->setDescription('Start web chat application')
             ->addArgument('isDebug', InputArgument::OPTIONAL, 'Turn on debug mode: true, false. Default - false', false)
-            ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'The port for incoming connection. Default - 8080', 8080)
+            ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'The port for incoming connection. Default - 8090', 8090)
         ;
     }
 
@@ -74,6 +74,19 @@ class DaemonCommand extends ContainerAwareCommand
             ),
             $port
         );
+
+        if ($this->isDebug) {
+            $redis = $this->container->get('snc_redis.default');
+            $server->loop->addPeriodicTimer(5, function () use ($redis, $messageManager) {
+                $memory = memory_get_usage();
+                echo "Send messages. Redis value: " . $redis->get('value') . "\r\n";
+                $info = array();
+                $info['message'] = "Redis value: " . $redis->get('value') . "; Memory: " . $memory;
+                $info['type'] = 'message';
+                $info['from'] = 'me';
+                $messageManager->sendAll(json_encode($info));
+            });
+        }
 
         $this->logMessage("Start server.");
         $server->run();
