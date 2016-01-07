@@ -59,6 +59,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 {% set currentRoute = app.request.attributes.get('_route') %}
                                 <li class="{% if currentRoute == ('chat') %}active{% endif %}"><a href="{{ path('chat') }}">{{ 'header.chat'|trans({}, 'AppBundle') }}</a></li>
+                                <li class="{% if currentRoute == ('redis') %}active{% endif %}"><a href="{{ path('redis') }}">{{ 'header.redis'|trans({}, 'AppBundle') }}</a></li>
                                 <li class="{% if currentRoute == ('about') %}active{% endif %}"><a href="{{ path('about') }}">{{ 'header.about'|trans({}, 'AppBundle') }}</a></li>
                                 <li class="{% if currentRoute == ('symfony_version') %}active{% endif %}"><a href="{{ path('symfony_version') }}">{{ 'header.symfony_version'|trans({}, 'AppBundle') }}</a></li>
                             </ul>
