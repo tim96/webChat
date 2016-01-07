@@ -30,6 +30,11 @@ class MessageManager implements MessageComponentInterface
         $this->chatHandler->clearChats();
     }
 
+    public function getChatHandler()
+    {
+        return $this->chatHandler;
+    }
+
     /**
      * When a new connection is opened it will be passed to this method
      * @param  ConnectionInterface $conn The socket/connection that just connected to your application
@@ -112,6 +117,15 @@ class MessageManager implements MessageComponentInterface
                     }
                 }
                 break;
+        }
+    }
+
+    public function sendAll($info)
+    {
+        if (count($this->connections) > 0) {
+            foreach($this->connections as $connect) {
+                $connect->send($info);
+            }
         }
     }
 

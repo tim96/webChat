@@ -1,5 +1,10 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
-    {{ 'Hello redis' }}
+    <div class="container">
+        <div class="row">
+            {{ 'Hello redis' }} <br/>
+            {{ value }}
+        </div>
+    </div>
 {% endblock body %}
