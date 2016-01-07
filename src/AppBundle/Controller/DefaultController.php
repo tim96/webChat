@@ -47,6 +47,9 @@ class DefaultController extends Controller
      */
     public function redisAction(Request $request)
     {
-        return array();
+        $redis = $this->container->get('snc_redis.default');
+        $val = $redis->incr('value');
+
+        return array('value' => $val);
     }
 }
