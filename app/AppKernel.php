@@ -17,6 +17,9 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
+            // for cache data
+            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
+
             // for redis connection
             new Snc\RedisBundle\SncRedisBundle(),
 
