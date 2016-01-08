@@ -24,7 +24,8 @@
         "cboden/ratchet": "0.*",
         "snc/redis-bundle": "1.1.*",
         "predis/predis": "1.*",
-        "predis/predis-async": "dev-master"
+        "predis/predis-async": "dev-master",
+        "oldsound/rabbitmq-bundle": "^1.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

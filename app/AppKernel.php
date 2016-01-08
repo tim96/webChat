@@ -20,6 +20,9 @@ class AppKernel extends Kernel
             // for cache data
             new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
 
+            // for rabbitmq test
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+
             // for redis connection
             new Snc\RedisBundle\SncRedisBundle(),
 
