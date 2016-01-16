@@ -22,7 +22,7 @@
         "sensio/framework-extra-bundle": "3.*",
         "incenteev/composer-parameter-handler": "2.*",
         "cboden/ratchet": "0.*",
-        "snc/redis-bundle": "1.1.*",
+        "snc/redis-bundle": "1.*",
         "predis/predis": "1.*",
         "predis/predis-async": "dev-master",
         "oldsound/rabbitmq-bundle": "^1.8"
